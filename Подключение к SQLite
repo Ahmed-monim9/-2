@@ -1,0 +1,30 @@
+import sqlite3
+
+# Подключение к базе данных (если файла нет, он будет создан)
+conn = sqlite3.connect('employees.db')
+
+# Создание объекта курсора для выполнения SQL-запросов
+cursor = conn.cursor()
+
+# Пример создания таблицы сотрудников
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS employees (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    position TEXT NOT NULL,
+    age INTEGER,
+    salary INTEGER
+)
+''')
+
+# Пример вставки данных
+cursor.execute('''
+INSERT INTO employees (name, position, age, salary)
+VALUES ('Алексей Иванов', 'Менеджер', 34, 75000)
+''')
+
+# Сохранение изменений
+conn.commit()
+
+# Закрытие подключения
+conn.close()
