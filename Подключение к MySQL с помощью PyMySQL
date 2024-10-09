@@ -1,0 +1,36 @@
+import pymysql
+
+# Параметры подключения к базе данных
+connection = pymysql.connect(
+    host='localhost',
+    user='root',
+    password='your_password',
+    database='your_database',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+
+try:
+    with connection.cursor() as cursor:
+        # Пример создания таблицы сотрудников
+        sql = '''
+        CREATE TABLE IF NOT EXISTS employees (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            position VARCHAR(255) NOT NULL,
+            age INT,
+            salary INT
+        )
+        '''
+        cursor.execute(sql)
+
+        # Пример вставки данных
+        sql = "INSERT INTO employees (name, position, age, salary) VALUES (%s, %s, %s, %s)"
+        cursor.execute(sql, ('Мария Петрова', 'Аналитик', 29, 60000))
+
+    # Сохранение изменений
+    connection.commit()
+
+finally:
+    # Закрытие подключения
+    connection.close()
