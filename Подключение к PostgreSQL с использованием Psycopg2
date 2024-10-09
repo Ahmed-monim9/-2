@@ -1,0 +1,37 @@
+import psycopg2
+
+# Параметры подключения к базе данных
+connection = psycopg2.connect(
+    host="localhost",
+    database="your_database",
+    user="your_username",
+    password="your_password"
+)
+
+cursor = connection.cursor()
+
+# Пример создания таблицы сотрудников
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS employees (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    position VARCHAR(255) NOT NULL,
+    age INTEGER,
+    salary INTEGER
+)
+''')
+
+# Пример вставки данных
+cursor.execute('''
+INSERT INTO employees (name, position, age, salary)
+VALUES (%s, %s, %s, %s)
+''', ('Евгений Сидоров', 'Кредитный специалист', 40, 85000))
+
+# Сохранение изменений
+connection.commit()
+
+# Закрытие подключения
+cursor.close()
+connection.close()
+   ь
+   ь
